@@ -177,27 +177,27 @@ user_info={}
 
 def signup():
     print("\nSignup to a new account")
-    username=input("Enter new username: ")
+    username=input("\tEnter new username: ")
     if username in user_info:
-        print("this username already exists")
+        print("\t\tthis username already exists")
     else:
-        password=str(input("Enter your password: "))
+        password=str(input("\tEnter your password: "))
         if len(password) < 8 :
-            print("Password must be at least 8 characters.")
+            print("\t\tPassword must be at least 8 characters.")
         else:
             user_info[username]={'password':password}
-            print("Signup successful!")
+            print("\tSignup successful!")
             main()
 
 def login():
     print("\nLog-in")
-    username=str(input("username: "))
-    password=str(input("password: "))
+    username=str(input("\tusername: "))
+    password=str(input("\tpassword: "))
     if username in user_info and user_info[username]['password']== password:
-        print("log-in successful!")
+        print("\tlog-in successful!")
         u_menu(username)
     else:
-        print("invalid password/ account does not exist.")
+        print("\tinvalid password/ account does not exist.")
         return
     
 def u_profile(username):
@@ -205,10 +205,11 @@ def u_profile(username):
     reviewed_movies = sum('review' in movie_data for movie_data in user_info.get(username, {}).values())
     watchlist_count = sum('watchlist' in movie_data for movie_data in user_info.get(username, {}).values())
     
-    print(f"\nUser ({username}) Profile")
-    print(f"{rated_movies} movies rated")
-    print(f"{reviewed_movies} movies reviewed")
-    print(f"{watchlist_count} movies in watchlist")
+    print(f"\n{username}'s Film Flask")
+    print("Here's your flask summary for year 2023:")
+    print(f"\t{rated_movies} movies rated")
+    print(f"\t{reviewed_movies} movies reviewed")
+    print(f"\t{watchlist_count} movies in watchlist")
 
     choice=int(input("\nEnter 1 to go back to menu: "))
     if choice==1:
@@ -217,19 +218,19 @@ def u_profile(username):
 def movielist(username):
     while True:
         print("Sort movies by:")
-        print("1. All Movies")
-        print("2. A-Z")
-        print("3. Oscar nominated")
-        print("4. Highest Grossing")
-        print("5.Return")
+        print("\t1. All Movies")
+        print("\t2. A-Z")
+        print("\t3. Oscar nominated")
+        print("\t4. Highest Grossing")
+        print("\t5.Return")
 
         choice=int(input("\nEnter your choice: "))
 
         try:
             if choice==1:
-                print("Best of 2023")
+                print("\nBest of 2023")
                 for title, movie_name in movie_library.items():
-                    print(f'-{movie_name}')
+                    print(f'\t-{movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in movie_library.values():
                     moviechoice_menu(username, movie_choice)
@@ -239,10 +240,10 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==2:
-                print("A-Z Best of 2023")
+                print("\nA-Z Best of 2023")
                 sortedlist=sorted(movie_library.values())
                 for movie_name in sortedlist:
-                    print(f'-{movie_name}')
+                    print(f'\t-{movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in movie_library.values():
                     moviechoice_menu(username, movie_choice)
@@ -252,9 +253,9 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==3:
-                print("Oscar Nominated Movies of 2023")
+                print("\nOscar Nominated Movies of 2023")
                 for title, movie_name in oscars.items():
-                    print(f'-{movie_name}')
+                    print(f'\t-{movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in oscars.values():
                     moviechoice_menu(username, movie_choice)
@@ -264,9 +265,9 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==4:
-                print("Top 25 Highest Grossing Films of 2023")
+                print("\nTop 25 Highest Grossing Films of 2023")
                 for i, (key, movie_name) in enumerate(hgross.items(), 1):
-                    print(f'{i}. {movie_name}')
+                    print(f'\t{i}. {movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in hgross.values():
                     moviechoice_menu(username, movie_choice)
@@ -288,15 +289,15 @@ def my_flask(username):
         print("\nRated Movies:")
         for movie, data in user_info.get(username,{}).items():
             if 'rating' in data:
-                print(f"{movie}: {data['rating']} stars")
+                print(f"\t{movie}: {data['rating']} stars")
         print("\fReviewed Movies:")
         for movie, data in user_info.get(username,{}).items():
             if 'review' in data:
-                print(f"{movie}: {data['review']}")
+                print(f"\t{movie}: {data['review']}")
         print("\nWatchlist")
         for movie, data in user_info.get(username, {}).items():
             if 'watchlist' in data:
-                print(f"- {movie}")
+                print(f"\t- {movie}")
         
         choice=int(input("back (enter 1): "))
         if choice==1:
@@ -306,12 +307,12 @@ def my_flask(username):
 
 def moviechoice_menu(username, movie_choice):
     while True:
-        print(f'Movie: {movie_choice}')
-        print("1. Rate")
-        print("2. Review")
-        print("3. Add to watchlist")
-        print("4. View my flask")
-        print("5. Back")
+        print(f'\nMovie: {movie_choice}')
+        print("\t1. Rate")
+        print("\t2. Review")
+        print("\t3. Add to watchlist")
+        print("\t4. View my flask")
+        print("\t5. Back")
         
         menu_choice = int(input("Enter your choice: "))
         try:
@@ -352,12 +353,12 @@ def moviechoice_menu(username, movie_choice):
 def u_menu(username):
     while True:
         print("\nMovie Dashboard")
-        print("Here are the most popular movies of the week:")
-        print("1. Poor Things\n2.Barbie\n3. Oppenheimer\n4.The Super Mario Bros. Movie\n5.Spider-Man: Across the Spider-Verse")
+        print("\tHere are the most popular movies of the week:")
+        print("\t1. Poor Things\n\t2. Barbie\n\t3. Oppenheimer\n\t4. The Super Mario Bros. Movie\n\t5. Spider-Man: Across the Spider-Verse")
         print("\nLoad your flask:")
-        print("1. View Profile")
-        print("2. View Movies")
-        print("3. Log-out")
+        print("\t1. View Profile")
+        print("\t2. View Movies")
+        print("\t3. Log-out")
 
         choice=int(input("Enter your choice: "))
 
@@ -375,11 +376,18 @@ def u_menu(username):
 
 def main():
     while True:
-        print("Film Flask")
+        print("""
+        ███████╗██╗██╗     ███╗   ███╗    ███████╗██╗      █████╗ ███████╗██╗  ██╗
+        ██╔════╝██║██║     ████╗ ████║    ██╔════╝██║     ██╔══██╗██╔════╝██║ ██╔╝
+        █████╗  ██║██║     ██╔████╔██║    █████╗  ██║     ███████║███████╗█████╔╝ 
+        ██╔══╝  ██║██║     ██║╚██╔╝██║    ██╔══╝  ██║     ██╔══██║╚════██║██╔═██╗ 
+        ██║     ██║███████╗██║ ╚═╝ ██║    ██║     ███████╗██║  ██║███████║██║  ██╗
+        ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝    ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+                                                                                    """)
         print("Rate and review our curated collection of the best movies of 2023.")
-        print("1. Signup")
-        print("2. Login")
-        print("3. Exit")
+        print("\t1. Signup")
+        print("\t2. Login")
+        print("\t3. Exit")
 
         choice=int(input("Enter your choice: "))
 
