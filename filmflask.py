@@ -286,7 +286,7 @@ def movielist(username):
 
 def my_flask(username):
     while True:
-        print("\nRated Movies:")
+        print("\nRated Movies ★★★★★:")
         for movie, data in user_info.get(username,{}).items():
             if 'rating' in data:
                 print(f"\t{movie}: {data['rating']} stars")
@@ -317,7 +317,7 @@ def moviechoice_menu(username, movie_choice):
         menu_choice = int(input("Enter your choice: "))
         try:
             if menu_choice == 1:
-                rating = int(input("Enter your rating (1-5 stars): "))
+                rating = int(input("Enter your rating (1-5 stars) ☆☆☆☆☆: "))
                 if 1 <= rating <= 5:
                     if username not in user_info:
                         user_info[username] = {}
