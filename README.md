@@ -1,10 +1,10 @@
 # Film Flask
 
-Film Flask is a movie rating and review application that allows users to explore, rate, review, and manage their watchlist for a curated collection of movies released in 2023. Below are the key features of the application:
+Film Flask is a movie rating and review application that allows users to explore, rate, review, and manage their watchlists for a curated collection of movies released in 2023. Below are the key features of the application:
 
 ## App Features:
 
-1. **User Signin and Login:**
+1. **User Sign in and Login:**
    - Users can sign up for a new account or log in with existing credentials to access the application features.
 
 2. **View List of Oscar Nominated and Highest Grossing Movies of 2023:**
