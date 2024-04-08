@@ -1,4 +1,4 @@
-# Film Flask
+# Film Flask 🎬
 
 Film Flask is a movie rating and review application that allows users to explore, rate, review, and manage their watchlists for a curated collection of movies released in 2023. Below are the key features of the application:
 
