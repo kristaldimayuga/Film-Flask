@@ -176,7 +176,7 @@ hgross = {
 user_info={}
 
 def signup():
-    print("\nSignup to a new account")
+    print("\nSign up to a new account")
     username=input("\tEnter new username: ")
     if username in user_info:
         print("\t\tthis username already exists")
@@ -186,11 +186,11 @@ def signup():
             print("\t\tPassword must be at least 8 characters.")
         else:
             user_info[username]={'password':password}
-            print("\tSignup successful!")
+            print("\tSign up successful!")
             main()
 
 def login():
-    print("\nLog-in")
+    print("\nLog-in to your account")
     username=str(input("\tusername: "))
     password=str(input("\tpassword: "))
     if username in user_info and user_info[username]['password']== password:
@@ -205,19 +205,27 @@ def u_profile(username):
     reviewed_movies = sum('review' in movie_data for movie_data in user_info.get(username, {}).values())
     watchlist_count = sum('watchlist' in movie_data for movie_data in user_info.get(username, {}).values())
     
-    print(f"\n{username}'s Film Flask")
+    print(f"\n✪ {username}'s Film Flask ✪")
     print("Here's your flask summary for year 2023:")
     print(f"\t{rated_movies} movies rated")
     print(f"\t{reviewed_movies} movies reviewed")
     print(f"\t{watchlist_count} movies in watchlist")
 
-    choice=int(input("\nEnter 1 to go back to menu: "))
-    if choice==1:
-        return
+    print("\nView my Flask (1)")
+    print("\nBack (2) ")
+    choice=int(input("Enter your choice: "))
+
+    try:
+        if choice==1:
+            return
+        else:
+            print("Enter number 1 only.")
+    except ValueError as e:
+        print(e)
 
 def movielist(username):
     while True:
-        print("Sort movies by:")
+        print("---Sort movies by:---")
         print("\t1. All Movies")
         print("\t2. A-Z")
         print("\t3. Oscar nominated")
@@ -228,7 +236,7 @@ def movielist(username):
 
         try:
             if choice==1:
-                print("\nBest of 2023")
+                print("\n☆ Best Movies of 2023 ☆")
                 for title, movie_name in movie_library.items():
                     print(f'\t-{movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
@@ -240,7 +248,7 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==2:
-                print("\nA-Z Best of 2023")
+                print("\n☆ A-Z Best Movies of 2023 ☆")
                 sortedlist=sorted(movie_library.values())
                 for movie_name in sortedlist:
                     print(f'\t-{movie_name}')
@@ -253,7 +261,7 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==3:
-                print("\nOscar Nominated Movies of 2023")
+                print("\n☆ Oscar Nominated Movies of 2023 ☆")
                 for title, movie_name in oscars.items():
                     print(f'\t-{movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
@@ -265,7 +273,7 @@ def movielist(username):
                     print("Movie not found in the list.")
 
             elif choice==4:
-                print("\nTop 25 Highest Grossing Films of 2023")
+                print("\n☆ Top 25 Highest Grossing Films of 2023 ☆")
                 for i, (key, movie_name) in enumerate(hgross.items(), 1):
                     print(f'\t{i}. {movie_name}')
                 movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
@@ -281,8 +289,8 @@ def movielist(username):
     
             else:
                 print("\nInvalid number. Please enter a number between 1-5.")
-        except ValueError:
-            print("\nInvalid input. Please enter a number.")
+        except ValueError as e:
+            print(e)
 
 def my_flask(username):
     while True:
@@ -299,15 +307,18 @@ def my_flask(username):
             if 'watchlist' in data:
                 print(f"\t- {movie}")
         
-        choice=int(input("back (enter 1): "))
-        if choice==1:
-            return
-        else:
-            print("invalid input")
+        choice=int(input("back (1): "))
+        try:
+            if choice==1:
+                return
+            else:
+                print("Enter number 1 only.")
+        except ValueError as e:
+            print(e)
 
 def moviechoice_menu(username, movie_choice):
     while True:
-        print(f'\nMovie: {movie_choice}')
+        print(f'\n☆ Movie: {movie_choice} ☆')
         print("\t1. Rate")
         print("\t2. Review")
         print("\t3. Add to watchlist")
@@ -318,26 +329,29 @@ def moviechoice_menu(username, movie_choice):
         try:
             if menu_choice == 1:
                 rating = int(input("Enter your rating (1-5 stars) ☆☆☆☆☆: "))
-                if 1 <= rating <= 5:
-                    if username not in user_info:
-                        user_info[username] = {}
-                    user_info[username].setdefault(movie_choice, {})['rating'] = rating
-                    print("Rating recorded successfully.")
-                else:
-                    print("Invalid rating. Please enter a rating between 1 and 5.")
+                try:
+                    if 1 <= rating <= 5:
+                        if username not in user_info:
+                            user_info[username] = {}
+                        user_info[username].setdefault(movie_choice, {})['rating'] = rating
+                        print("Rating recorded successfully!")
+                    else:
+                        print("Invalid rating. Please enter a rating between 1 and 5.")
+                except ValueError as e:
+                    print(e)
     
             elif menu_choice == 2:
-                review = input("Write your review: ")
+                review = input("✪ Write your review: ")
                 if username not in user_info:
                     user_info[username] = {}
                 user_info[username].setdefault(movie_choice, {})['review'] = review
-                print("Review recorded successfully.")
+                print("Review recorded successfully!")
 
             elif menu_choice == 3:
                 if username not in user_info:
                     user_info[username] = {}
                 user_info[username].setdefault(movie_choice, {})['watchlist'] = True
-                print(f"{movie_choice} added to watchlist.")
+                print(f"{movie_choice} added to watchlist!")
             
             elif menu_choice == 4:
                 my_flask(username)
@@ -347,8 +361,8 @@ def moviechoice_menu(username, movie_choice):
                 
             else:
                 print("Invalid choice. Please enter a number between 1 and 4.")
-        except ValueError:
-            print("\nInvalid input. Please enter a number.")
+        except ValueError as e:
+            print(e)
 
 def u_menu(username):
     while True:
@@ -371,8 +385,8 @@ def u_menu(username):
                 return
             else:
                 print("\nInvalid choice. Please enter a number between 1-3.")
-        except ValueError:
-            print("\nInvalid input. Please enter a number.")
+        except ValueError as e:
+            print(e)
 
 def main():
     while True:
@@ -401,6 +415,6 @@ def main():
                 break
             else:
                 print("\nInvalid choice. Please enter a number between 1-3.")
-        except ValueError:
-            print("\nInvalid input. Please enter a number.")
+        except ValueError as e:
+            print(e)
 main()
