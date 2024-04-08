@@ -179,7 +179,7 @@ def signup():
     print("\nSign up to a new account")
     username=input("\tEnter new username: ")
     if username in user_info:
-        print("\t\tthis username already exists")
+        print("\t\tThis username already exists. ")
     else:
         password=str(input("\tEnter your password: "))
         if len(password) < 8 :
@@ -194,10 +194,10 @@ def login():
     username=str(input("\tusername: "))
     password=str(input("\tpassword: "))
     if username in user_info and user_info[username]['password']== password:
-        print("\tlog-in successful!")
+        print("\tLog-in successful!")
         u_menu(username)
     else:
-        print("\tinvalid password/ account does not exist.")
+        print("\tInvalid password/ Account does not exist.")
         return
     
 def u_profile(username):
@@ -212,25 +212,27 @@ def u_profile(username):
     print(f"\t{watchlist_count} movies in watchlist")
 
     print("\nView my Flask (1)")
-    print("\nBack (2) ")
+    print("Back (2) ")
     choice=int(input("Enter your choice: "))
 
     try:
         if choice==1:
+            my_flask(username)
+        elif choice==2:
             return
         else:
-            print("Enter number 1 only.")
+            print("Enter number 1-2 only.")
     except ValueError as e:
         print(e)
 
 def movielist(username):
     while True:
-        print("---Sort movies by:---")
+        print("\n---Sort movies by:---")
         print("\t1. All Movies")
         print("\t2. A-Z")
         print("\t3. Oscar nominated")
         print("\t4. Highest Grossing")
-        print("\t5.Return")
+        print("\t5. Return")
 
         choice=int(input("\nEnter your choice: "))
 
@@ -366,8 +368,8 @@ def moviechoice_menu(username, movie_choice):
 
 def u_menu(username):
     while True:
-        print("\nMovie Dashboard")
-        print("\tHere are the most popular movies of the week:")
+        print("\n☆☆☆ Movie Dashboard ☆☆☆")
+        print("Here are the most popular movies of the week:")
         print("\t1. Poor Things\n\t2. Barbie\n\t3. Oppenheimer\n\t4. The Super Mario Bros. Movie\n\t5. Spider-Man: Across the Spider-Verse")
         print("\nLoad your flask:")
         print("\t1. View Profile")
@@ -398,7 +400,7 @@ def main():
         ██║     ██║███████╗██║ ╚═╝ ██║    ██║     ███████╗██║  ██║███████║██║  ██╗
         ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝    ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                     """)
-        print("Rate and review our curated collection of the best movies of 2023.")
+        print("☆☆☆ Rate and review our curated collection of the best movies of 2023. ☆☆☆")
         print("\t1. Signup")
         print("\t2. Login")
         print("\t3. Exit")
