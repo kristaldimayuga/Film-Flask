@@ -201,29 +201,140 @@ def login():
         return
     
 def u_profile(username):
+    display_bio = user_info[username].get('bio')
     rated_movies = sum('rating' in movie_data for movie_data in user_info.get(username, {}).values())
     reviewed_movies = sum('review' in movie_data for movie_data in user_info.get(username, {}).values())
     watchlist_count = sum('watchlist' in movie_data for movie_data in user_info.get(username, {}).values())
     
     print(f"\n✪ {username}'s Film Flask ✪")
+    print(f"Bio: {display_bio}")
     print("Here's your flask summary for year 2023:")
     print(f"\t{rated_movies} movies rated")
     print(f"\t{reviewed_movies} movies reviewed")
     print(f"\t{watchlist_count} movies in watchlist")
 
     print("\nView my Flask (1)")
-    print("Back (2) ")
+    print("Edit Profile (2)")
+    print("Back (3) ")
     choice=int(input("Enter your choice: "))
 
     try:
         if choice==1:
             my_flask(username)
         elif choice==2:
+            editprofile(username)
+        elif choice==3:
             return
         else:
-            print("Enter number 1-2 only.")
+            print("Enter number 1-3 only.")
     except ValueError as e:
         print(e)
+
+def my_flask(username):
+    while True:
+        print("\nRated Movies ★★★★★:")
+        for movie, data in user_info.get(username,{}).items():
+            if 'rating' in data:
+                print(f"\t{movie}: {data['rating']} stars")
+        print("\fReviewed Movies:")
+        for movie, data in user_info.get(username,{}).items():
+            if 'review' in data:
+                print(f"\t{movie}: {data['review']}")
+        print("\nWatchlist")
+        for movie, data in user_info.get(username, {}).items():
+            if 'watchlist' in data:
+                print(f"\t- {movie}")
+        
+        choice=int(input("\nback (1): "))
+        try:
+            if choice==1:
+                return
+            else:
+                print("Enter number 1 only.")
+        except ValueError as e:
+            print(e)
+
+def edit_uinfo(username):
+    while True:
+        print("\n---Edit username---")
+        username = input("Enter username to edit: ")
+        
+        if username in user_info:
+            new_uname = input("Enter new username: ")
+            new_pass = input("Enter new password: ")
+            confirm_pass = input("Confirm new password: ")
+            
+            if confirm_pass == new_pass:
+                new_pass = user_info[username]['password']
+                if new_uname != username:
+                    user_info[new_uname] = user_info[username]
+                    del user_info[username]
+                    username=new_uname
+                    u_menu(username)
+                    print(f"Username updated successfully! Updated username: {new_uname}")
+                print("Password updated successfully!")
+            else:
+                print("Passwords do not match.")
+        else:
+            print("User not found.")
+
+        try:
+            choice = int(input("\nback (1): "))
+            if choice == 1:
+                return
+            else:
+                print("Enter number 1 only.")
+        except ValueError as e:
+            print(e)
+
+def addbio(username):
+    print("---Add bio to your profile---")
+    user_bio=input("Bio: ")
+    if username not in user_info:
+        user_info[username] = {}
+    user_info[username]['bio'] = user_bio
+    print("Bio recorded successfully!")
+
+def editprofile(username):
+    while True:
+        print("---Edit your profile---")
+        print("\t1. Update username and password")
+        print("\t2. Add Bio")
+        print("\t3. Delete account")
+        print("\nback (4)")
+
+        choice=int(input("Enter your choice: "))
+
+        try:
+            if choice==1:
+                edit_uinfo(username)
+            elif choice==2:
+                addbio(username)
+            elif choice==3:
+                confirmation=input("Are you sure you want to delete your account? (Y/N): ")
+                try:
+                    if confirmation=="Y" or "y":
+                        del user_info[username]
+                        back=int(input("Account deleted succesfully. Press 1 to go back to the main menu: "))
+                        try:
+                            if back ==1:
+                                main()
+                            else:
+                                print("Please enter number 1 only.")
+                        except ValueError as e:
+                            print(e)
+                    elif confirmation=="N" or "n":
+                        return
+                    else:
+                        print("Enter Y/y,N/n only")
+                except ValueError as e:
+                    print(e)
+            elif choice==4:
+                return
+            else:
+                print("Please enter only a number from 1-4.")
+        except ValueError as e:
+            print(e)
 
 def movielist(username):
     while True:
@@ -294,30 +405,6 @@ def movielist(username):
         except ValueError as e:
             print(e)
 
-def my_flask(username):
-    while True:
-        print("\nRated Movies ★★★★★:")
-        for movie, data in user_info.get(username,{}).items():
-            if 'rating' in data:
-                print(f"\t{movie}: {data['rating']} stars")
-        print("\fReviewed Movies:")
-        for movie, data in user_info.get(username,{}).items():
-            if 'review' in data:
-                print(f"\t{movie}: {data['review']}")
-        print("\nWatchlist")
-        for movie, data in user_info.get(username, {}).items():
-            if 'watchlist' in data:
-                print(f"\t- {movie}")
-        
-        choice=int(input("back (1): "))
-        try:
-            if choice==1:
-                return
-            else:
-                print("Enter number 1 only.")
-        except ValueError as e:
-            print(e)
-
 def moviechoice_menu(username, movie_choice):
     while True:
         print(f'\n☆ Movie: {movie_choice} ☆')
@@ -370,7 +457,7 @@ def u_menu(username):
     while True:
         print("\n☆☆☆ Movie Dashboard ☆☆☆")
         print("Here are the most popular movies of the week:")
-        print("\t1. Poor Things\n\t2. Barbie\n\t3. Oppenheimer\n\t4. The Super Mario Bros. Movie\n\t5. Spider-Man: Across the Spider-Verse")
+        print("1. Poor Things\n2. Barbie\n3. Oppenheimer\n4. The Super Mario Bros. Movie\n5. Spider-Man: Across the Spider-Verse")
         print("\nLoad your flask:")
         print("\t1. View Profile")
         print("\t2. View Movies")
