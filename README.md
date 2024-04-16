@@ -4,7 +4,7 @@ Film Flask is a movie rating and review application that allows users to explore
 
 ## App Features:
 
-1. **User Sign in and Login:**
+1. **User Sign-in and Login:**
    - Users can sign up for a new account or log in with existing credentials to access the application features.
 
 2. **View List of Oscar Nominated and Highest Grossing Movies of 2023:**
@@ -21,6 +21,9 @@ Film Flask is a movie rating and review application that allows users to explore
 5. **View All Rated, Reviewed, and Watchlisted Movies:**
    - Users have the option to view all the movies they have rated, reviewed, or added to their watchlist in dedicated menu sections.
 
+6. **Edit User Profile:**
+   - Users have the option to change their username and password, as well as add a bio and delete their account.
+   
 ## Getting Started:
 
 To get started with Film Flask, follow these steps:
