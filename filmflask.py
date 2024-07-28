@@ -176,21 +176,21 @@ hgross = {
 user_info={}
 
 def signup():
-    print("\nSign up to a new account")
+    print("\n\tSign up to a new account")
     username=input("\tEnter new username: ")
     if username in user_info:
-        print("\t\tThis username already exists. ")
+        print("\tThis username already exists. ")
     else:
         password=str(input("\tEnter your password: "))
         if len(password) < 8 :
-            print("\t\tPassword must be at least 8 characters.")
+            print("\tPassword must be at least 8 characters.")
         else:
             user_info[username]={'password':password}
             print("\tSign up successful!")
             main()
 
 def login():
-    print("\nLog-in to your account")
+    print("\n\tLog-in to your account")
     username=str(input("\tusername: "))
     password=str(input("\tpassword: "))
     if username in user_info and user_info[username]['password']== password:
@@ -206,19 +206,22 @@ def u_profile(username):
     reviewed_movies = sum('review' in movie_data for movie_data in user_info.get(username, {}).values())
     watchlist_count = sum('watchlist' in movie_data for movie_data in user_info.get(username, {}).values())
     
-    print(f"\n✪ {username}'s Film Flask ✪")
-    print(f"Bio: {display_bio}")
-    print("Here's your flask summary for year 2023:")
+    print(f"\n\t✪ {username}'s Film Flask ✪")
+    print(f"\tBio: {display_bio}")
+    print("\tHere's your flask summary for year 2023:")
     print(f"\t{rated_movies} movies rated")
     print(f"\t{reviewed_movies} movies reviewed")
     print(f"\t{watchlist_count} movies in watchlist")
 
-    print("\nView my Flask (1)")
-    print("Edit Profile (2)")
-    print("Back (3) ")
-    choice=int(input("Enter your choice: "))
+    print("\n\t[1] View my Flask")
+    print("\t[2] Edit Profile")
+    print("\t[3]Back")
 
     try:
+        choice=int(input("\tEnter your choice: "))
+        print("_" * 100,)
+        print("_" * 100, "\n")
+
         if choice==1:
             my_flask(username)
         elif choice==2:
@@ -227,42 +230,44 @@ def u_profile(username):
             return
         else:
             print("Enter number 1-3 only.")
-    except ValueError as e:
-        print(e)
+    except ValueError:
+        print("\tInvalid choice, please enter a number")
 
 def my_flask(username):
     while True:
-        print("\nRated Movies ★★★★★:")
+        print("\n\tRated Movies ★★★★★:")
         for movie, data in user_info.get(username,{}).items():
             if 'rating' in data:
                 print(f"\t{movie}: {data['rating']} stars")
-        print("\fReviewed Movies:")
+        print("\n\tReviewed Movies:")
         for movie, data in user_info.get(username,{}).items():
             if 'review' in data:
                 print(f"\t{movie}: {data['review']}")
-        print("\nWatchlist")
+        print("\n\tWatchlist")
         for movie, data in user_info.get(username, {}).items():
             if 'watchlist' in data:
                 print(f"\t- {movie}")
-        
-        choice=int(input("\nback (1): "))
         try:
+            choice=int(input("\n\t[1] Return: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice==1:
                 return
             else:
-                print("Enter number 1 only.")
-        except ValueError as e:
-            print(e)
+                print("\tEnter number 1 only.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def edit_uinfo(username):
     while True:
-        print("\n---Edit username---")
-        username = input("Enter username to edit: ")
+        print("\n\t---Edit username---")
+        username = input("\tEnter username to edit: ")
         
         if username in user_info:
-            new_uname = input("Enter new username: ")
-            new_pass = input("Enter new password: ")
-            confirm_pass = input("Confirm new password: ")
+            new_uname = input("\tEnter new username: ")
+            new_pass = input("\tEnter new password: ")
+            confirm_pass = input("\tConfirm new password: ")
             
             if confirm_pass == new_pass:
                 new_pass = user_info[username]['password']
@@ -271,176 +276,189 @@ def edit_uinfo(username):
                     del user_info[username]
                     username=new_uname
                     u_menu(username)
-                    print(f"Username updated successfully! Updated username: {new_uname}")
-                print("Password updated successfully!")
+                    print(f"\tUsername updated successfully! Updated username: {new_uname}")
+                print("\tPassword updated successfully!")
+                
             else:
-                print("Passwords do not match.")
+                print("\tPasswords do not match.")
         else:
-            print("User not found.")
+            print("\tUser not found.")
 
         try:
-            choice = int(input("\nback (1): "))
+            choice = int(input("\n[1] Return: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice == 1:
                 return
             else:
                 print("Enter number 1 only.")
-        except ValueError as e:
-            print(e)
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def addbio(username):
-    print("---Add bio to your profile---")
-    user_bio=input("Bio: ")
+    print("\t---Add bio to your profile---")
+    user_bio=input("\tBio: ")
     if username not in user_info:
         user_info[username] = {}
     user_info[username]['bio'] = user_bio
-    print("Bio recorded successfully!")
+    print("\tBio recorded successfully!")
+    print("_" * 100,)
+    print("_" * 100, "\n")
 
 def editprofile(username):
     while True:
-        print("---Edit your profile---")
+        print("\t---Edit your profile---")
         print("\t1. Update username and password")
         print("\t2. Add Bio")
         print("\t3. Delete account")
-        print("\nback (4)")
-
-        choice=int(input("Enter your choice: "))
+        print("\n\t[4] Back: ")
 
         try:
+            choice=int(input("\tEnter your choice: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice==1:
                 edit_uinfo(username)
             elif choice==2:
                 addbio(username)
             elif choice==3:
-                confirmation=input("Are you sure you want to delete your account? (Y/N): ")
+                confirmation=input("\tAre you sure you want to delete your account? (Y/N): ")
                 try:
                     if confirmation=="Y" or "y":
                         del user_info[username]
-                        back=int(input("Account deleted succesfully. Press 1 to go back to the main menu: "))
+                        back=int(input("\tAccount deleted succesfully. Press 1 to go back to the main menu: "))
                         try:
                             if back ==1:
                                 main()
                             else:
-                                print("Please enter number 1 only.")
-                        except ValueError as e:
-                            print(e)
+                                print("\tPlease enter number 1 only.")
+                        except ValueError:
+                            print("\tInvalid choice, please enter a number")
                     elif confirmation=="N" or "n":
                         return
                     else:
-                        print("Enter Y/y,N/n only")
-                except ValueError as e:
-                    print(e)
+                        print("\tEnter Y/y,N/n only")
+                except ValueError:
+                    print("\tInvalid choice, please enter a number")
             elif choice==4:
                 return
             else:
-                print("Please enter only a number from 1-4.")
-        except ValueError as e:
-            print(e)
+                print("\tPlease enter only a number from 1-4.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def movielist(username):
     while True:
-        print("\n---Sort movies by:---")
+        print("\n\t---Sort movies by:---")
         print("\t1. All Movies")
         print("\t2. A-Z")
         print("\t3. Oscar nominated")
         print("\t4. Highest Grossing")
         print("\t5. Return")
-
-        choice=int(input("\nEnter your choice: "))
-
+        
         try:
+            choice=int(input("\n\tEnter your choice: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice==1:
-                print("\n☆ Best Movies of 2023 ☆")
+                print("\n\t☆ Best Movies of 2023 ☆")
                 for title, movie_name in movie_library.items():
                     print(f'\t-{movie_name}')
-                movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
+                movie_choice = input("\n\tEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in movie_library.values():
                     moviechoice_menu(username, movie_choice)
                 elif movie_choice==1:
                     return
                 else:
-                    print("Movie not found in the list.")
+                    print("\tMovie not found in the list.")
 
             elif choice==2:
-                print("\n☆ A-Z Best Movies of 2023 ☆")
+                print("\n\t☆ A-Z Best Movies of 2023 ☆")
                 sortedlist=sorted(movie_library.values())
                 for movie_name in sortedlist:
                     print(f'\t-{movie_name}')
-                movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
+                movie_choice = input("\n\tEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in movie_library.values():
                     moviechoice_menu(username, movie_choice)
                 elif movie_choice==1:
                     return
                 else:
-                    print("Movie not found in the list.")
+                    print("\tMovie not found in the list.")
 
             elif choice==3:
-                print("\n☆ Oscar Nominated Movies of 2023 ☆")
+                print("\n\t☆ Oscar Nominated Movies of 2023 ☆")
                 for title, movie_name in oscars.items():
                     print(f'\t-{movie_name}')
-                movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
+                movie_choice = input("\n\tEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in oscars.values():
                     moviechoice_menu(username, movie_choice)
                 elif movie_choice==1:
                     return
                 else:
-                    print("Movie not found in the list.")
+                    print("\tMovie not found in the list.")
 
             elif choice==4:
-                print("\n☆ Top 25 Highest Grossing Films of 2023 ☆")
+                print("\n\t☆ Top 25 Highest Grossing Films of 2023 ☆")
                 for i, (key, movie_name) in enumerate(hgross.items(), 1):
                     print(f'\t{i}. {movie_name}')
-                movie_choice = input("\nEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
+                movie_choice = input("\n\tEnter the movie you want to view details (Type the full name exactly as shown). Press 1 to go back: ")
                 if movie_choice in hgross.values():
                     moviechoice_menu(username, movie_choice)
                 elif movie_choice==1:
                     return
                 else:
-                    print("Movie not found in the list.")
+                    print("\tMovie not found in the list.")
 
             elif choice==5:
                 return
     
             else:
-                print("\nInvalid number. Please enter a number between 1-5.")
-        except ValueError as e:
-            print(e)
+                print("\n\tInvalid number. Please enter a number between 1-5.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def moviechoice_menu(username, movie_choice):
     while True:
-        print(f'\n☆ Movie: {movie_choice} ☆')
+        print("_" * 100,)
+        print("_" * 100, "\n")
+        print(f'\n\t☆ Movie: {movie_choice} ☆')
         print("\t1. Rate")
         print("\t2. Review")
         print("\t3. Add to watchlist")
         print("\t4. View my flask")
         print("\t5. Back")
         
-        menu_choice = int(input("Enter your choice: "))
         try:
+            menu_choice = int(input("\tEnter your choice: "))
+        
             if menu_choice == 1:
-                rating = int(input("Enter your rating (1-5 stars) ☆☆☆☆☆: "))
+                rating = int(input("\tEnter your rating (1-5 stars) ☆☆☆☆☆: "))
                 try:
                     if 1 <= rating <= 5:
                         if username not in user_info:
                             user_info[username] = {}
                         user_info[username].setdefault(movie_choice, {})['rating'] = rating
-                        print("Rating recorded successfully!")
+                        print("\tRating recorded successfully!")
                     else:
-                        print("Invalid rating. Please enter a rating between 1 and 5.")
-                except ValueError as e:
-                    print(e)
+                        print("\tInvalid rating. Please enter a rating between 1 and 5.")
+                except ValueError:
+                    print("\tInvalid choice, please enter a number")
     
             elif menu_choice == 2:
-                review = input("✪ Write your review: ")
+                review = input("\t✪ Write your review: ")
                 if username not in user_info:
                     user_info[username] = {}
                 user_info[username].setdefault(movie_choice, {})['review'] = review
-                print("Review recorded successfully!")
+                print("\tReview recorded successfully!")
 
             elif menu_choice == 3:
                 if username not in user_info:
                     user_info[username] = {}
                 user_info[username].setdefault(movie_choice, {})['watchlist'] = True
-                print(f"{movie_choice} added to watchlist!")
+                print(f"\n{movie_choice} added to watchlist!")
             
             elif menu_choice == 4:
                 my_flask(username)
@@ -449,23 +467,27 @@ def moviechoice_menu(username, movie_choice):
                 return
                 
             else:
-                print("Invalid choice. Please enter a number between 1 and 4.")
-        except ValueError as e:
-            print(e)
+                print("\tInvalid choice. Please enter a number between 1 and 4.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def u_menu(username):
     while True:
-        print("\n☆☆☆ Movie Dashboard ☆☆☆")
-        print("Here are the most popular movies of the week:")
-        print("1. Poor Things\n2. Barbie\n3. Oppenheimer\n4. The Super Mario Bros. Movie\n5. Spider-Man: Across the Spider-Verse")
-        print("\nLoad your flask:")
+        print("_" * 100,)
+        print("_" * 100, "\n")
+        print("\n\t☆☆☆ Movie Dashboard ☆☆☆")
+        print("\tHere are the most popular movies of the week:")
+        print("\t1. Poor Things\n\t2. Barbie\n\t3. Oppenheimer\n\t4. The Super Mario Bros. Movie\n\t5. Spider-Man: Across the Spider-Verse")
+        print("\n\tLoad your flask:")
         print("\t1. View Profile")
         print("\t2. View Movies")
         print("\t3. Log-out")
-
-        choice=int(input("Enter your choice: "))
-
+        
         try:
+            choice=int(input("\tEnter your choice: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice==1:
                 u_profile(username)
             elif choice==2:
@@ -473,13 +495,16 @@ def u_menu(username):
             elif choice==3:
                 return
             else:
-                print("\nInvalid choice. Please enter a number between 1-3.")
-        except ValueError as e:
-            print(e)
+                print("\n\tInvalid choice. Please enter a number between 1-3.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
 
 def main():
     while True:
-        print("""
+        print("_" * 100,)
+        print("_" * 100, "\n")
+
+        print("""\n
         ███████╗██╗██╗     ███╗   ███╗    ███████╗██╗      █████╗ ███████╗██╗  ██╗
         ██╔════╝██║██║     ████╗ ████║    ██╔════╝██║     ██╔══██╗██╔════╝██║ ██╔╝
         █████╗  ██║██║     ██╔████╔██║    █████╗  ██║     ███████║███████╗█████╔╝ 
@@ -487,23 +512,27 @@ def main():
         ██║     ██║███████╗██║ ╚═╝ ██║    ██║     ███████╗██║  ██║███████║██║  ██╗
         ╚═╝     ╚═╝╚══════╝╚═╝     ╚═╝    ╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                     """)
-        print("☆☆☆ Rate and review our curated collection of the best movies of 2023. ☆☆☆")
+        print("\n\t☆☆☆ Rate and review our curated collection of the best movies of 2023. ☆☆☆")
         print("\t1. Signup")
         print("\t2. Login")
         print("\t3. Exit")
 
-        choice=int(input("Enter your choice: "))
-
         try:
+            choice=int(input("\tEnter your choice: "))
+            print("_" * 100,)
+            print("_" * 100, "\n")
+
             if choice==1:
                 signup()
             elif choice==2:
                 login()
             elif choice==3:
-                print("\nExiting Program...")
+                print("\n\tExiting Program...")
                 break
             else:
-                print("\nInvalid choice. Please enter a number between 1-3.")
-        except ValueError as e:
-            print(e)
-main()
+                print("\n\tInvalid choice. Please enter a number between 1-3.")
+        except ValueError:
+            print("\tInvalid choice, please enter a number")
+            
+if __name__ == "__main__":
+    main()
